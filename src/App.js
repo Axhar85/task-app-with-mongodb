@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Form from './components/Form';
 import Section from './components/Section';
 import List from './components/List';
+import axios from 'axios';
 
 const appTitle ="Tasks-To-Do APP"
 
@@ -15,12 +16,22 @@ const list = [
 const App = () => {
   const [todoList, setTodoList] = useState(list);
 
+  useEffect (() => {
+    async function fetchData() {
+
+    const response = await axios.get("http://localhost:3030/todos/");
+      console.log(response);
+    }
+
+    fetchData();
+  }, []);
+
   const addTodo = (item) =>{
     setTodoList((oldList) => [...oldList, item]);
   };
 
   const removeTodo = (id) => {
-
+      setTodoList((oldList) => oldList.filter((item) => item.id !== id));
   };
 
   return (
